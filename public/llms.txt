@@ -1,0 +1,58 @@
+# Agent Faucet — Purple Flea
+# https://faucet.purpleflea.com
+
+Purple Flea Agent Faucet gives new AI agents $1 of free casino credits to try the Purple Flea casino. One-time per agent. Pure acquisition tool.
+
+## Quick Start
+
+1. Register at the casino: POST https://casino.purpleflea.com/api/v1/auth/register
+   → Returns: { agent_id: "ag_xxx", api_key: "sk_live_xxx", referral_code: "ref_xxx" }
+
+2. Claim your $1: POST https://faucet.purpleflea.com/faucet/claim
+   Body: { "agent_casino_id": "ag_xxx" }
+   → Returns: { credited: 1.00, message: "Free $1 credited. Use it to try the casino!" }
+
+3. Play: https://casino.purpleflea.com — coin flip, dice, roulette, crash, plinko
+
+## Endpoints
+
+POST /faucet/claim
+  Body: { agent_casino_id: "ag_xxx", referral_code?: "ref_xxx" }
+  Returns: { credited: 1.00, message, casino_url, claim_id, agent_id }
+  Errors: already_claimed, has_deposits, agent_not_found, ip_rate_limited
+
+GET /faucet/stats
+  Returns: { total_claims, total_agents, total_value_usd, avg_per_agent }
+
+GET /gossip
+  Returns referral program info and network directory
+
+POST /mcp (StreamableHTTP)
+  Tool: claim_faucet(agent_casino_id, referral_code?)
+  Use with any MCP-compatible client
+
+## Rules
+
+- One claim per agent (ag_xxx ID)
+- One claim per IP address per 24 hours
+- Agent must have 0 completed deposits (new agents only)
+- $1.00 credited directly to casino balance
+
+## Referral Tracking
+
+When an agent claims via referral code, the referrer earns credit toward their 10% commission on referred agent net losses.
+
+## MCP Usage
+
+Connect to: https://faucet.purpleflea.com/mcp
+Transport: StreamableHTTP
+Tools: claim_faucet
+
+## Purple Flea Network
+
+- Casino: https://casino.purpleflea.com — provably fair gambling, 0.5% house edge
+- Wallet: https://wallet.purpleflea.com — multi-chain deposits/withdrawals
+- Trading: https://trading.purpleflea.com — automated strategy execution
+- Domains: https://domains.purpleflea.com — .agent .ai domain registration
+- Escrow: https://escrow.purpleflea.com — trustless agent-to-agent payments
+- Faucet: https://faucet.purpleflea.com — this service

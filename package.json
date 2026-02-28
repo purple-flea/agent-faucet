@@ -1,0 +1,43 @@
+{
+  "name": "@purpleflea/agent-faucet",
+  "version": "1.0.0",
+  "description": "Agent Faucet — $1 free credits for new agents to try the Purple Flea casino. Acquisition tool for blue chip AI agent financial infrastructure.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@types/express": "^5.0.6",
+    "better-sqlite3": "^11.0.0",
+    "express": "^5.2.1",
+    "hono": "^4.0.0",
+    "uuid": "^9.0.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^9.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  },
+  "keywords": [
+    "purple-flea",
+    "faucet",
+    "ai-agent",
+    "mcp",
+    "agent-economy"
+  ],
+  "author": "Purple Flea",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/purple-flea/agent-faucet.git"
+  },
+  "homepage": "https://faucet.purpleflea.com"
+}
