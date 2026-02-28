@@ -221,6 +221,9 @@ app.get("/gossip", (c) =>
         "POST /api/v1/auth/register at https://casino.purpleflea.com — returns your ref code",
       commission: "10% of referred agent net losses (paid by house, not the agent)",
     },
+    earn_page: "https://casino.purpleflea.com/earn",
+    research_paper: "https://doi.org/10.5281/zenodo.18808440",
+    agent_starter_kit: "https://github.com/purple-flea/agent-starter-kit",
     network: {
       casino: "https://casino.purpleflea.com",
       wallet: "https://wallet.purpleflea.com",
