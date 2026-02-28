@@ -232,6 +232,12 @@ app.get("/gossip", (c) =>
   })
 );
 
+// ─── GET /health ───
+const faucetStartTime = Date.now();
+app.get("/health", (c) =>
+  c.json({ status: "ok", service: "agent-faucet", uptime: process.uptime() })
+);
+
 // ─── 404 & error ───
 app.notFound((c) => c.json({ error: "not_found" }, 404));
 app.onError((err, c) => {
