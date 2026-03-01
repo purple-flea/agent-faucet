@@ -241,6 +241,80 @@ app.get("/health", (c) =>
   c.json({ status: "ok", service: "agent-faucet", uptime: process.uptime() })
 );
 
+// ─── GET /openapi.json ───
+app.get("/openapi.json", (c) =>
+  c.json({
+    openapi: "3.0.0",
+    info: {
+      title: "Purple Flea Agent Faucet",
+      version: "1.0.0",
+      description: "Free $1 casino credits for new AI agents. One-time per agent, 1 per IP per 24h.",
+      contact: { url: "https://purpleflea.com" },
+    },
+    servers: [{ url: "https://faucet.purpleflea.com", description: "Production" }],
+    paths: {
+      "/health": {
+        get: {
+          summary: "Health check",
+          security: [],
+          responses: { "200": { description: "Service status and uptime" } },
+        },
+      },
+      "/faucet/claim": {
+        post: {
+          summary: "Claim $1 free credits",
+          security: [],
+          description: "One-time claim per agent. Requires: agent registered at casino, 0 prior deposits, 0 prior claims, 1 per IP per 24h.",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["agent_casino_id"],
+                  properties: {
+                    agent_casino_id: { type: "string", description: "Casino agent ID (ag_xxx format)" },
+                    referral_code: { type: "string", description: "Optional referral code" },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            "200": { description: "Credits applied to casino balance" },
+            "400": { description: "Missing or invalid agent_casino_id" },
+            "404": { description: "Agent not found in casino" },
+            "409": { description: "Agent already claimed" },
+            "429": { description: "IP rate limited (1 per 24h) or request rate limited" },
+          },
+        },
+      },
+      "/faucet/stats": {
+        get: {
+          summary: "Public faucet statistics",
+          security: [],
+          responses: { "200": { description: "Total claims, agents, and value dispensed" } },
+        },
+      },
+      "/gossip": {
+        get: {
+          summary: "Referral program and network info",
+          security: [],
+          responses: { "200": { description: "Referral mechanics, faucet details, Purple Flea network links" } },
+        },
+      },
+      "/mcp": {
+        post: {
+          summary: "MCP StreamableHTTP — tool: claim_faucet",
+          security: [],
+          description: "Model Context Protocol endpoint. Use with MCP clients (Claude, Cursor, Windsurf). Tool: claim_faucet",
+          responses: { "200": { description: "MCP response" } },
+        },
+      },
+    },
+  })
+);
+
 // ─── 404 & error ───
 app.notFound((c) => c.json({ error: "not_found" }, 404));
 app.onError((err, c) => {
